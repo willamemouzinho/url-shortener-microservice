@@ -44,20 +44,24 @@ const isValidURL = (url) => {
 };
 
 router.post("/", async (req, res) => {
+  // return res.status(201).send({ originalUrl, shortUrl });
   const { originalUrl } = req.body;
 
-  if (!isValidURL(originalUrl))
+  if (!isValidURL(originalUrl)) {
     return res.status(400).send({
       error: "invalid url",
     });
+  }
 
   try {
     const url = await createUrl(req.body);
     const { originalUrl, shortUrl } = url;
+    console.log({ originalUrl, shortUrl })
 
     return res.status(201).send({ originalUrl, shortUrl });
   } catch (error) {
     console.log("erro na rota post /api");
+    console.log(error)
     return res.status(400).send(error);
   }
 });
