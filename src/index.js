@@ -7,9 +7,10 @@ const urlController = require("./controllers/url");
 
 const app = express();
 
-app.use(cors({ optionsSuccessStatus: 200 }));
+// app.use(cors({ optionsSuccessStatus: 200 }));
 app.use(cors());
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use("/api/shorturl", urlController);
 app.use(express.static("public"));
 
@@ -18,22 +19,16 @@ app.get("/", (_req, res) => {
   // return res.sendFile(__dirname.replace("/src", "") + "/views/index.html");
 });
 
-// your first API endpoint...
-app.get("/hello", function (req, res) {
-  res.json({ greeting: "hello API" });
-});
+// const dns = require('dns');
+// const hostname = "www.globo.com";
 
-const dns = require('dns');
-const hostname = "www.globo.com";
-// console.log(hostname);
-dns.lookup(hostname, (err, address, family) => {
-  if (err) {
-    // console.error(`Erro ao resolver o host ${hostname}: ${err.message}`);
-  }
-  console.log(
-    // `Endereço IP de ${hostname}: ${address}, versão do IP: IPv${family}`
-  );
-});
+// dns.lookup(hostname2, (err, ip) => {
+//   if (err) {
+//     console.log("invalid URL")
+//   } else {
+//     console.log("valid URL")
+//   }
+// });
 
 const listener = app.listen(
   {
