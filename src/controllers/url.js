@@ -14,10 +14,11 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:shortUrl", async (req, res) => {
+  const { shortUrl } = req.params;
   try {
-    const url = await listOneUrl(req.params.shortUrl);
+    const url = await listOneUrl(shortUrl);
 
-    return res.redirect(url.originalUrl);
+    return res.redirect(url.original_url);
   } catch (err) {
     return res.status(400).json(err);
   }
@@ -30,9 +31,9 @@ const isValidURL = (url) => {
 };
 
 router.post("/", async (req, res) => {
-  const { originalUrl } = req.body;
+  const { original_url } = req.body;
 
-  if (!isValidURL(originalUrl)) {
+  if (!isValidURL(original_url)) {
     return res.status(400).json({
       error: "invalid url",
     });
@@ -40,10 +41,9 @@ router.post("/", async (req, res) => {
 
   try {
     const url = await createUrl(req.body);
-    const { originalUrl, shortUrl } = url;
-    console.log({ originalUrl, shortUrl });
+    const { original_url, short_url } = url;
 
-    return res.status(201).json({ originalUrl, shortUrl });
+    return res.status(201).json({ original_url, short_url });
   } catch (err) {
     console.log(err);
     return res.status(400).json(err);
